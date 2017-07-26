@@ -4,6 +4,7 @@ import android.arch.lifecycle.LifecycleActivity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -46,19 +47,23 @@ public class MainLiveDataActivity extends LifecycleActivity {
     }
 
     private void loadData() {
-        mProgressBar.setVisibility(View.VISIBLE);
-        final MainViewModel mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
-        mainViewModel.getAnimals().observe(this, new Observer<List<AnimalsDao>>() {
-            @Override
-            public void onChanged(@Nullable List<AnimalsDao> list) {
-                Log.e("onChanged: ", new Gson().toJson(list));
-                mAdapterListAnimals = new AdapterListAnimals(MainLiveDataActivity.this, list);
-                rv.setLayoutManager(new LinearLayoutManager(MainLiveDataActivity.this));
-                rv.setAdapter(mAdapterListAnimals);
-                mProgressBar.setVisibility(View.GONE);
-                mRefreshLayout.setRefreshing(false);
-            }
-        });
+
+                mProgressBar.setVisibility(View.VISIBLE);
+                final MainViewModel mainViewModel = ViewModelProviders.of(MainLiveDataActivity.this).get(MainViewModel.class);
+                mainViewModel.getAnimals().observe(MainLiveDataActivity.this, new Observer<List<AnimalsDao>>() {
+                    @Override
+                    public void onChanged(@Nullable List<AnimalsDao> list) {
+                        Log.e("onChanged: ", new Gson().toJson(list));
+                        mAdapterListAnimals = new AdapterListAnimals(MainLiveDataActivity.this, list);
+                        rv.setLayoutManager(new LinearLayoutManager(MainLiveDataActivity.this));
+                        rv.setAdapter(mAdapterListAnimals);
+                        mProgressBar.setVisibility(View.GONE);
+                        mRefreshLayout.setRefreshing(false);
+                    }
+                });
+
+
+
     }
 
     @Override

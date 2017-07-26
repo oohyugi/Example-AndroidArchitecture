@@ -16,12 +16,12 @@ public class ApiClient {
 
     public  ApiClient(){
         OkHttpClient client = new OkHttpClient.Builder().
-                readTimeout(30,TimeUnit.SECONDS)
-                .writeTimeout(30,TimeUnit.SECONDS)
+                readTimeout(6000,TimeUnit.SECONDS)
+                .writeTimeout(6000,TimeUnit.SECONDS)
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.100.12/xample/")
+                .baseUrl("https://yogip.000webhostapp.com/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();

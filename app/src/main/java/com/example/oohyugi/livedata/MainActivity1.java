@@ -54,24 +54,28 @@ public class MainActivity1 extends AppCompatActivity {
 
     private void loadDataFromApi() {
         mProgressBar.setVisibility(View.VISIBLE);
-        ApiClient apiClient = new ApiClient();
-        apiClient.getmService().getData().enqueue(new Callback<List<AnimalsDao>>() {
-            @Override
-            public void onResponse(Call<List<AnimalsDao>> call, Response<List<AnimalsDao>> response) {
-                Log.e("onResponse: ", new Gson().toJson(response.body()));
-                mAdapterListAnimals = new AdapterListAnimals(MainActivity1.this, response.body());
-                rv.setLayoutManager(new LinearLayoutManager(MainActivity1.this));
-                rv.setAdapter(mAdapterListAnimals);
-                mProgressBar.setVisibility(View.GONE);
-                mRefreshLayout.setRefreshing(false);
-            }
 
-            @Override
-            public void onFailure(Call<List<AnimalsDao>> call, Throwable t) {
-                Log.e("onFailure: ", t.getMessage());
+                ApiClient apiClient = new ApiClient();
+                apiClient.getmService().getData().enqueue(new Callback<List<AnimalsDao>>() {
+                    @Override
+                    public void onResponse(Call<List<AnimalsDao>> call, Response<List<AnimalsDao>> response) {
+                        Log.e("onResponse: ", new Gson().toJson(response.body()));
+                        mAdapterListAnimals = new AdapterListAnimals(MainActivity1.this, response.body());
+                        rv.setLayoutManager(new LinearLayoutManager(MainActivity1.this));
+                        rv.setAdapter(mAdapterListAnimals);
+                        mProgressBar.setVisibility(View.GONE);
+                        mRefreshLayout.setRefreshing(false);
+                    }
 
-            }
-        });
+                    @Override
+                    public void onFailure(Call<List<AnimalsDao>> call, Throwable t) {
+                        Log.e("onFailure: ", t.getMessage());
+
+                    }
+                });
+
+
+
     }
 
 
